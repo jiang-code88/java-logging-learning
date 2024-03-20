@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <property name = "pattern"
+              value = "%d{yyyy-MM-dd HH:mm:ss.SSS} - %c [%thread] %-5level %msg%n"/>
+    <property name="log_dir"
+              value="/Users/jrk/repository/java-logging-learning/logback-learning/src/logs"/>
+
+    <!-- 3.appender 日志输出目的地 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+    <appender name="roll_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- a. 日志文件保存路径 -->
+        <file>${log_dir}/logback_roll.log</file>
+        <!-- b. 日志消息格式配置  -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!-- c. 指定日志拆分的规则 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log_dir}/logback_roll.%d{yyyy-MM-dd-HH-mm-ss}.log_%i</fileNamePattern>
+            <maxFileSize>2MB</maxFileSize>
+        </rollingPolicy>
+
+        <!-- d. 日志拦截器 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- error 及以上级别的日志放行写入日志文件 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <!-- error 级别以下的日志拦截不写入 -->
+            <OnMismatch>DENY</OnMismatch>
+        </filter>
+    </appender>
+
+    <root level="ALL">
+        <appender-ref ref="console"/>
+    </root>
+
+    <logger name="com.learn.TestLogback06"
+            level="INFO" additivity="true">
+        <appender-ref ref="roll_file"/>
+    </logger>
+
+</configuration>

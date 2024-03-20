@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <property name = "pattern"
+              value = "%d{yyyy-MM-dd HH:mm:ss.SSS} - %c [%thread] %-5level %msg%n"/>
+    <property name="log_dir"
+              value="/Users/jrk/repository/java-logging-learning/logback-learning/src/logs"/>
+
+    <!-- 3.appender 日志输出目的地 -->
+    <!-- 1）控制台日志输出 appender -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+    <!-- 3）日志拆分和归档压缩 appender -->
+    <appender name="roll_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- a. 日志文件保存路径 -->
+        <file>${log_dir}/logback_roll.log</file>
+        <!-- b. 日志消息格式配置  -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!-- c. 指定日志拆分的规则 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 按照时间格式声明拆分的日志文件名 -->
+            <fileNamePattern>${log_dir}/logback_roll.%d{yyyy-MM-dd-HH-mm-ss}.log_%i</fileNamePattern>
+            <!-- 按照压缩格式压缩拆分的日志文件, 这里使用 .gz 后缀压缩文件格式, 压缩日志文件 -->
+            <fileNamePattern>${log_dir}/logback_roll.%d{yyyy-MM-dd-HH-mm-ss}.log_%i.gz</fileNamePattern>
+
+            <!-- 按照文件大小声明拆分日志文件 -->
+            <maxFileSize>2MB</maxFileSize>
+            <!-- 总的日志文件拆分规则为：先按时间每秒日志拆分存储到一个文件中，
+                 如果再按文件大小拆分超过 1MB 的日志文件拆分开（通过 %i 控制拆分的日志文件名）-->
+        </rollingPolicy>
+    </appender>
+
+    <root level="ALL">
+        <appender-ref ref="console"/>
+    </root>
+
+    <logger name="com.learn.TestLogback05"
+            level="INFO" additivity="true">
+        <appender-ref ref="roll_file"/>
+    </logger>
+
+</configuration>

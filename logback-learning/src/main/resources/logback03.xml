@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <property name = "pattern"
+              value = "%d{yyyy-MM-dd HH:mm:ss.SSS} ---- %c [%thread] %-5level %msg%n" />
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="ALL">
+        <appender-ref ref="console"/>
+    </root>
+
+    <!-- 4.日志记录器 -->
+    <!-- 2）<logger> 元素是配置自定义日志记录器：用于设置某一个包或某一个类的日志记录器，
+            可以配置日志记录器的 日志级别 和 <appender> -->
+    <!-- a. name：用于指定受此 logger 自定义日志记录器约束的某一个包或者具体的某一个类
+         b. level：设置日志记录器的打印级别，大小写无关，默认为 debug，
+              可选值为 trace、debug、info、warn、error、all 和 off。
+              如果未设置此属性，那么当前 logger 将继承上级日志记录器的级别。
+         c. additivity：是否向上级 logger 日志记录器对象，传递打印日志记录，
+                       在上级 logger 配置的 appender 目的地中打印日志，默认是 true。
+     -->
+    <logger name="com.learn.TestLogback03"
+            level="INFO" additivity="true">
+        <!-- d. additivity="true" 属性配置，
+             让这个自定义日志记录器 TestLogback03 继承 root 根日志记录器的 console appender，
+             使得自定义日志记录器 TestLogback03 打印的日志在 console appender 目的地中输出 -->
+    </logger>
+
+</configuration>

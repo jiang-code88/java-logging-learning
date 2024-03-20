@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <property name = "pattern"
+              value = "%d{yyyy-MM-dd HH:mm:ss.SSS} -=- %c [%thread] %-5level %msg%n"/>
+
+    <property name="log_dir"
+              value="/Users/jrk/repository/java-logging-learning/springboot-logging-learning/src/logs"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <file>${log_dir}/logback.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="ALL">
+        <appender-ref ref="console"/>
+    </root>
+
+    <logger name="com.learn.TestSpringbootLogApplication05"
+            level="INFO" additivity="true">
+        <appender-ref ref="file"/>
+    </logger>
+
+</configuration>

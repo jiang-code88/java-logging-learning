@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 1.configuration 根标签-->
+<configuration>
+
+    <!-- 2.property 配置文件中的集中管理属性（可复用属性），复用时通过 ${name} 获取 value 中定义的值-->
+    <!--
+        1）日志输出格式属性（可供选择的格式内容列表）
+           %-5level    // 日志级别(宽度5且向左对齐)
+           %d{yyyy-MM-dd HH:mm:ss.SSS} // 时间格式
+           %c          // 类的完整名称(全限定类名)
+           %M          // 打印日志的方法名
+           %L          // 打印日志的行号
+           %thread     // 打印日志的线程名
+           %m 或 %msg  // 日志信息内容
+           %n          // 换行符
+    -->
+    <property name = "pattern"
+              value = "%d{yyyy-MM-dd HH:mm:ss.SSS} -c- %c [%thread] %-5level %msg%n" />
+
+    <!-- 3.appender 日志输出目的地 -->
+    <!-- 控制台日志输出 appender -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 1）控制输出流对象：默认 System.out（黑色字体显示）, 可以修改为 System.err（红色字体显示） -->
+        <target>System.err</target>
+        <!-- 2）日志消息格式配置 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 4.日志记录器 -->
+    <!-- 1）<root> 元素是配置 root 根日志记录器，
+            代码中通过 LoggerFactory.getLogger(...) 默认创建的 logger 日志记录器对象，
+            都会继承该 root 根日志记录器对象 -->
+    <!-- a. level: 设置日志记录器的打印级别，大小写无关，默认为 debug，
+              可选值为 trace、debug、info、warn、error、all 和 off -->
+    <root level="ALL">
+        <!-- b. 可以包含零个或多个 <appender-ref> 元素，
+                标识这个 appender 将添加到这个 logger 日志记录器中，
+                这个 logger 打印的日志记录将输出到，添加的 appender 所配置的目的地中 -->
+        <appender-ref ref="console"/>
+    </root>
+
+</configuration>
