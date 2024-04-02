@@ -17,7 +17,6 @@
     <modules>
         <module>logback-learning</module>
         <module>springboot-logging-learning</module>
-        <module>test-spi</module>
     </modules>
 
     <properties>
